@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.settings">
+   <left>
+      <TreeView fx:id="treeView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <AnchorPane fx:id="general_view" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="14.0" layoutY="31.0" prefHeight="17.0" prefWidth="104.0" text="Select Font:" />
+            <JFXComboBox fx:id="font_combo" layoutX="14.0" layoutY="58.0" prefHeight="25.0" prefWidth="232.0" />
+            <JFXButton fx:id="btn_apply" buttonType="RAISED" layoutX="160.0" layoutY="350.0" onMouseClicked="#setFont" prefHeight="25.0" prefWidth="100.0" ripplerFill="#ff6560" style="-fx-background-color: #B0BEC5;" text="APPLY" />
+            <JFXButton fx:id="btn_cancel" layoutX="286.0" layoutY="350.0" onAction="#onClose" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #EEEEEE;" text="CANCEL" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

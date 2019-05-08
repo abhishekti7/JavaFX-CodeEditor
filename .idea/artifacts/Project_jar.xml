@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Project:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Project_jar</output-path>
+    <root id="archive" name="Project.jar">
+      <element id="module-output" name="Project" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/fontawesomefx-8.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/richtextfx-0.10.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/jfoenix-8.0.8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/controlsfx-8.40.15.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

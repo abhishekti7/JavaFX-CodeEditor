@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -24,11 +27,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
+import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.MenuItem;
 import java.awt.TextArea;
 import java.awt.TextField;
 import java.io.*;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -59,13 +65,13 @@ public class Controller {
     private boolean punish;
     private String consoleMessage;
     private final Model model;
+    private final String filepath = "C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\config.txt";
 
     public Controller(Model model) {
         this.model = model;
     }
 
     public void initialize(){
-        //request focus for textArea
         punish = false;
         currentTextFile = new TextFile(new File(""),"");
         errorboard.setStyle("-fx-text-fill: #E53935; -fx-background-color: #000000; ");
@@ -74,6 +80,21 @@ public class Controller {
         console.managedProperty().bind(console.visibleProperty());
         directory_tree.setVisible(false);
         directory_tree.managedProperty().bind(directory_tree.visibleProperty());
+        directory_tree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null && newValue != oldValue){
+                directory_tree.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                            if(mouseEvent.getClickCount() == 2){
+                               openFromTree(newValue);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
         hbox.setPrefWidth(31);
         HBox.setHgrow(tool_hbox, Priority.ALWAYS);
         HBox.setHgrow(consoleText, Priority.ALWAYS);
@@ -81,10 +102,38 @@ public class Controller {
         Platform.runLater(() -> textArea.requestFocus());
         textArea.textProperty().addListener((observable, oldValue, newValue) -> onTextChange());
         textArea.textProperty().addListener((observable, oldValue, newValue) -> onTextChange());
+
+        openLastSession();
     }
+
+    public void openLastSession(){
+        try {
+            FileReader fr = new FileReader(filepath);
+            BufferedReader br = new BufferedReader(fr);
+            String s;
+            s = br.readLine();
+            s = br.readLine();
+            br.close();
+            File file = new File(s);
+            IOResult<TextFile> io = model.open(file);
+
+            if (io.isOk() && io.hasData()) {
+                currentTextFile = io.getData();
+                initDirectoryTree(file.getParentFile());
+//                System.out.println(file.getParentFile());
+                textArea.clear();
+                textArea.setText(currentTextFile.getContent());
+            } else {
+                System.out.println("Failed");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setFont(){
         try {
-            FileReader fileReader = new FileReader("C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Code-Editor-Java\\src\\sample\\config.txt");
+            FileReader fileReader = new FileReader("C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\config.txt");
             BufferedReader br = new BufferedReader(fileReader);
             String font = br.readLine();
             textArea.setFont(Font.font(font));
@@ -94,7 +143,30 @@ public class Controller {
             e.printStackTrace();
         }
     }
+    public void openFromTree(Object value) {
+        String filename = value.toString();
+        filename = filename.substring(18, filename.length() - 2);
+//        System.out.println(filename.substring(18,filename.length()-1));
+        File directory;
+        if (currentTextFile.getFile().getPath() != "" && filename.endsWith(".java")) {
+            directory = currentTextFile.getFile().getParentFile();
+            for (File file : directory.listFiles()) {
+                if (file.getName().equals(filename.trim())) {
+                    if (file != null) {
+                        IOResult<TextFile> io = model.open(file);
 
+                        if (io.isOk() && io.hasData()) {
+                            currentTextFile = io.getData();
+                            textArea.clear();
+                            textArea.setText(currentTextFile.getContent());
+                        } else {
+                            System.out.println("Failed");
+                        }
+                    }
+                }
+            }
+        }
+    }
     public void onOpen() {
         FileChooser fileChooser = new FileChooser();
         if(currentTextFile.getFile().getPath()!=""){
@@ -109,7 +181,7 @@ public class Controller {
             if (io.isOk() && io.hasData()) {
                 currentTextFile = io.getData();
                 initDirectoryTree(selectedFile.getParentFile());
-//                System.out.println(selectedFile.getParentFile());
+                System.out.println(selectedFile.getParentFile());
                 textArea.clear();
                 textArea.setText(currentTextFile.getContent());
             } else {
@@ -146,7 +218,7 @@ public class Controller {
     public void onFindAndReplace() throws IOException {
         TextFile textFile = new TextFile(currentTextFile.getFile(), textArea.getText());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("findandreplace.fxml"));
-        loader.setControllerFactory(t -> new FRController(new Model(), textArea.getText(), textFile));
+        loader.setControllerFactory(t -> new FRController(new Model(), textArea.getText(), textFile, textArea));
 
 
         Stage stage=new Stage();
@@ -157,7 +229,6 @@ public class Controller {
         stage.setScene(scene);
         stage.showAndWait();
         textArea.setText(textFile.getContent());
-
     }
     public void onAbout() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("about.fxml"));
@@ -187,21 +258,31 @@ public class Controller {
         setFont();
     }
     public void callDirectoryTree(){
-        File file = new File(System.getProperty("user.dir"));
-        initDirectoryTree(file);
-    }
-    public void initDirectoryTree(File file){
         count++;
+        File file;
+        if(currentTextFile.getFile().getPath()=="") {
+            file = new File(System.getProperty("user.dir"));
+        }
+        else{
+            file = new File(currentTextFile.getFile().getPath());
+        }
+//        System.out.println(count);
         if(count%2==0){
             directory_tree.setVisible(false);
             directory_tree.managedProperty().bind(directory_tree.visibleProperty());
             hbox.setPrefWidth(31);
-        }else {
+        }else{
             directory_tree.setVisible(true);
             hbox.setPrefWidth(225);
             directory_tree.managedProperty().bind(directory_tree.visibleProperty());
-            directory_tree.setRoot(getNodesForDirectory(file));
+            initDirectoryTree(file.getParentFile());
         }
+    }
+    public void initDirectoryTree(File file){
+        directory_tree.setVisible(true);
+        hbox.setPrefWidth(225);
+        directory_tree.managedProperty().bind(directory_tree.visibleProperty());
+        directory_tree.setRoot(getNodesForDirectory(file));
     }
     public TreeItem<String> getNodesForDirectory(File directory) { //Returns a TreeItem representation of the specified directory
         TreeItem<String> root = new TreeItem<String>(directory.getName());
@@ -210,7 +291,9 @@ public class Controller {
             if(f.isDirectory()) { //Then we call the function recursively
                 root.getChildren().add(getNodesForDirectory(f));
             } else {
-                root.getChildren().add(new TreeItem<String>(f.getName()));
+                if(f.getName().endsWith(".java")){
+                    root.getChildren().add(new TreeItem<String>(f.getName()));
+                }
             }
         }
         return root;
@@ -219,7 +302,7 @@ public class Controller {
         textArea.setText("");
     }
     public void onClose(){
-        model.close();
+        model.close(currentTextFile.getFile());
     }
     public void onCut(){
         textArea.cut();
@@ -264,6 +347,8 @@ public class Controller {
             msg = msg + "\n\n Process terminated with "+errors.size()+" errors.\n";
         }
         consoleText.setText(msg);
+        System.out.println(currentTextFile.getFile().getPath().length());
+        consoleText.selectRange(9,currentTextFile.getFile().getPath().length()+10);
     }
 
     public void onConsoleClose(){

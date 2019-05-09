@@ -13,6 +13,7 @@ public class Model {
     public Model(){
 
     }
+    private final String filepath = "C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\config.txt";
 
     public List<String> checkSyntax(TextFile currentFile){
         String file = currentFile.getFile().getAbsolutePath();
@@ -33,7 +34,8 @@ public class Model {
         return messages;
     }
 
-    public void close() {
+    public void close(File file) {
+        String font="";
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setAlertType(Alert.AlertType.CONFIRMATION);
         alert.getButtonTypes().clear();
@@ -42,6 +44,24 @@ public class Model {
         alert.getDialogPane().setGraphic(new ImageView("file:C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\icons\\warning.png"));
         Optional<ButtonType> option = alert.showAndWait();
         if (option.get()==ButtonType.YES){
+            if (file.getPath()!=""){
+                try {
+                    FileReader fr = new FileReader(filepath);
+                    BufferedReader br = new BufferedReader(fr);
+                    font = br.readLine();
+                    br.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    FileWriter fw = new FileWriter(filepath);
+                    fw.write(font+"\n"+file.getPath()+"\n");
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             System.exit(0);
         }else{
             alert.close();
@@ -76,7 +96,8 @@ public class Model {
             e.printStackTrace();
         }
     }
-    public void search(String pat, String txt, int q, int d){
+    public List<Integer> search(String pat, String txt, int q, int d){
+        List<Integer> positions = new ArrayList<>(100);
         int M = pat.length();
         int N = txt.length();
         int i, j;
@@ -114,7 +135,8 @@ public class Model {
 
                 // if p == t and pat[0...M-1] = txt[i, i+1, ...i+M-1]
                 if (j == M) {
-                    System.out.println(i);
+                    positions.add(Integer.valueOf(i));
+                    positions.add(Integer.valueOf(i+M));
                 }
             }
 
@@ -130,6 +152,7 @@ public class Model {
                     t = (t + q);
             }
         }
+        return positions;
     }
     public TextFile replace(TextFile currentTextFile, String find, String repl){
         currentTextFile.setContent(currentTextFile.getContent().replaceAll(find, repl));

@@ -24,7 +24,7 @@ public class settings {
     @FXML
     private JFXButton btn_cancel;
 
-    private final String filepath = "C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Code-Editor-Java\\src\\sample\\config.txt";
+    private final String filepath = "C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\config.txt";
 
     public void initialize(){
         initTreeView();

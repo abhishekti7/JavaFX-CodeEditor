@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: #7B1FA2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="editor.About">
+   <children>
+      <Label layoutX="50.0" layoutY="38.0" prefHeight="25.0" prefWidth="77.0" style="-fx-text-fill: WHITE;" text="Version" />
+      <TextField editable="false" layoutX="195.0" layoutY="43.0" text="1.2" />
+      <Label layoutX="50.0" layoutY="68.0" prefHeight="25.0" prefWidth="77.0" style="-fx-text-fill: WHITE;" text="Name" />
+      <TextField editable="false" layoutX="195.0" layoutY="73.0" text="JavaFX-Code-Editor" />
+      <Label layoutX="50.0" layoutY="100.0" prefHeight="25.0" prefWidth="77.0" style="-fx-text-fill: WHITE;" text="JDK" />
+      <TextField editable="false" layoutX="195.0" layoutY="103.0" text="jdk 1.8.0_201" />
+      <Label layoutX="50.0" layoutY="133.0" prefHeight="25.0" prefWidth="77.0" style="-fx-text-fill: WHITE;" text="JavaFX" />
+      <TextField editable="false" layoutX="195.0" layoutY="133.0" text="JavaFX 2.1" />
+      <Label layoutX="48.0" layoutY="164.0" prefHeight="25.0" prefWidth="77.0" style="-fx-text-fill: WHITE;" text="Developer" />
+      <TextField editable="false" layoutX="195.0" layoutY="164.0" text="editor" />
+      <JFXButton fx:id="btn" buttonType="RAISED" layoutX="48.0" layoutY="231.0" onAction="#onClick" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: #fff;" text="GitHub repo" textFill="#252525">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/icons8-octocat-48.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="206.0" layoutY="231.0" onAction="#onClose" prefHeight="38.0" prefWidth="130.0" ripplerFill="#ebebeb" style="-fx-background-color: #FF1744;" text="Close" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/exit.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+</AnchorPane>

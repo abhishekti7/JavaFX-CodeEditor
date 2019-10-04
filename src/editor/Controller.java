@@ -1,6 +1,5 @@
-package sample;
+package editor;
 
-import com.jfoenix.controls.JFXAutoCompletePopup;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -65,7 +64,7 @@ public class Controller {
     private boolean punish;
     private String consoleMessage;
     private final Model model;
-    private final String filepath = "C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\config.txt";
+    private final String filepath = "C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\editor\\config.txt";
 
     public Controller(Model model) {
         this.model = model;
@@ -133,7 +132,7 @@ public class Controller {
 
     public void setFont(){
         try {
-            FileReader fileReader = new FileReader("C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\config.txt");
+            FileReader fileReader = new FileReader("C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\editor\\config.txt");
             BufferedReader br = new BufferedReader(fileReader);
             String font = br.readLine();
             textArea.setFont(Font.font(font));
@@ -317,7 +316,7 @@ public class Controller {
         if(currentTextFile.getFile().getPath()==""){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Save the file to use this feature.");
-            alert.setGraphic(new ImageView("file:C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\icons\\error.png"));
+            alert.setGraphic(new ImageView("file:C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\editor\\icons\\error.png"));
             alert.show();
         }else{
             if(!punishCheck.isSelected()) {
@@ -375,7 +374,7 @@ public class Controller {
         if(currentTextFile.getFile().getPath()==""){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Save the file before proceeding.");
-            alert.setGraphic(new ImageView("file:C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\icons\\error.png"));
+            alert.setGraphic(new ImageView("file:C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\editor\\icons\\error.png"));
             alert.show();
         }else{
             model.save(currentTextFile.getFile(), textArea.getText());

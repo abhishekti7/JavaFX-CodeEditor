@@ -1,4 +1,4 @@
-package sample;
+package editor;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -13,7 +13,7 @@ public class Model {
     public Model(){
 
     }
-    private final String filepath = "C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\config.txt";
+    private final String filepath = "C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\editor\\config.txt";
 
     public List<String> checkSyntax(TextFile currentFile){
         String file = currentFile.getFile().getAbsolutePath();
@@ -41,7 +41,7 @@ public class Model {
         alert.getButtonTypes().clear();
         alert.getButtonTypes().addAll(ButtonType.NO, ButtonType.YES);
         alert.setHeaderText("Are you sure you want to exit?");
-        alert.getDialogPane().setGraphic(new ImageView("file:C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\icons\\warning.png"));
+        alert.getDialogPane().setGraphic(new ImageView("file:C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\editor\\icons\\warning.png"));
         Optional<ButtonType> option = alert.showAndWait();
         if (option.get()==ButtonType.YES){
             if (file.getPath()!=""){

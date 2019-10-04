@@ -1,4 +1,4 @@
-package sample;
+package editor;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -24,7 +24,7 @@ public class settings {
     @FXML
     private JFXButton btn_cancel;
 
-    private final String filepath = "C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\config.txt";
+    private final String filepath = "C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\editor\\config.txt";
 
     public void initialize(){
         initTreeView();

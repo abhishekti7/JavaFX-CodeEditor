@@ -1,4 +1,4 @@
-package sample;
+package editor;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;

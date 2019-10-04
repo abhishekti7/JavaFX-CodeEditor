@@ -1,4 +1,4 @@
-package sample;
+package editor;
 
 public class IOResult<T> {
 

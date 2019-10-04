@@ -1,4 +1,4 @@
-package sample;
+package editor;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
         loader.setControllerFactory(t -> new Controller(new Model()));
 
         primaryStage.setOnCloseRequest(e -> {
@@ -26,7 +26,7 @@ public class Main extends Application {
          });
 
         primaryStage.setTitle("Java Code Editor");
-        primaryStage.getIcons().add(new Image("file:C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\icons\\logo.png"));
+        primaryStage.getIcons().add(new Image("file:C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\editor\\icons\\logo.png"));
         Scene scene = new Scene(loader.load(), 600,400);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -42,7 +42,7 @@ public class Main extends Application {
         alert.setAlertType(Alert.AlertType.CONFIRMATION);
         alert.getButtonTypes().clear();
         alert.getButtonTypes().addAll(ButtonType.NO, ButtonType.YES);
-        alert.setGraphic(new ImageView("file:C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\sample\\icons\\warning.png"));
+        alert.setGraphic(new ImageView("file:C:\\Users\\Abhishek Tiwari\\IdeaProjects\\Project\\src\\editor\\icons\\warning.png"));
         alert.setHeaderText("Are you sure you want to exit?");
         Optional<ButtonType> option = alert.showAndWait();
         if (option.get()==ButtonType.YES){

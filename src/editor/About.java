@@ -1,4 +1,4 @@
-package sample;
+package editor;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
